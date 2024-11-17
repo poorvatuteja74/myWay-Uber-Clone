@@ -1,7 +1,6 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
@@ -18,6 +17,7 @@ export default function RootLayout() {
     "Jakarta-Regular": require("../assets/fonts/PlusJakartaSans-Regular.ttf"),
     "Jakarta-SemiBold": require("../assets/fonts/PlusJakartaSans-SemiBold.ttf"),
   });
+
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
@@ -31,7 +31,7 @@ export default function RootLayout() {
   return (
     <Stack>
       <Stack.Screen name="(index)" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack.Screen name="(auth)"/>
       <Stack.Screen name="(root)" options={{ headerShown: false }} />
       <Stack.Screen name="+not-found" />
     </Stack>
