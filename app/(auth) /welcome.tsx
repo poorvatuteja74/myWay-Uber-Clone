@@ -1,7 +1,6 @@
-import { Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native";
+import React, { useRef, useState } from "react";
+import { Text, TouchableOpacity, View, Image, SafeAreaView } from "react-native";
 import { router } from "expo-router";
-import { useRef, useState } from "react";
 import Swiper from "react-native-swiper";
 import { onboarding } from "@/constants";
 
@@ -18,9 +17,10 @@ const Onboarding = () => {
         backgroundColor: "white",
       }}
     >
+      {/* Skip Button */}
       <TouchableOpacity
         onPress={() => {
-          router.replace("//(auth)/sign-up");
+          router.replace("/(auth) /sign-up");
         }}
         style={{
           width: "100%",
@@ -34,6 +34,7 @@ const Onboarding = () => {
         </Text>
       </TouchableOpacity>
 
+      {/* Swiper Component */}
       <Swiper
         ref={swiperRef}
         loop={false}
@@ -61,9 +62,24 @@ const Onboarding = () => {
         }
         onIndexChanged={(index) => setActiveIndex(index)}
       >
-        {onboarding.map((item, index) => (
-          <View key={index}>
-            <Text>{item.title}</Text>
+        {onboarding.map((item) => (
+          <View
+            key={item.id}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 20,
+            }}
+          >
+            <Image
+              source={item.image}
+              style={{ width: "100%", height: 300 }}
+              resizeMode="contain"
+            />
+            <Text style={{ marginTop: 20, fontSize: 18, fontWeight: "bold" }}>
+              {item.title}
+            </Text>
           </View>
         ))}
       </Swiper>
