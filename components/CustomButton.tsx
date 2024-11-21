@@ -3,7 +3,7 @@ import { ButtonProps } from "@/types/type";
 
 const styles = StyleSheet.create({
   button: {
-    width: "100%",
+    width: "80%",
     borderRadius: 50,
     padding: 12,
     flexDirection: "row",
