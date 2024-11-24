@@ -64,12 +64,16 @@ const SignUp = () => {
         style={styles.button}
       />
       <OAuth style={styles.oauthButtons} />
-      <Link href="/sign-in" style={styles.link}>
-        <Text style={styles.linkText}>
-          Already have an account?{" "}
-          <Text style={styles.linkHighlight}>Log In</Text>
-        </Text>
-      </Link>
+      
+      {/* Centered "Already have an account?" Link */}
+      <View style={styles.centeredLinkContainer}>
+        <Link href="/sign-in" style={styles.link}>
+          <Text style={styles.linkText}>
+            Already have an account?{" "}
+            <Text style={styles.linkHighlight}>Log In</Text>
+          </Text>
+        </Link>
+      </View>
     </ScrollView>
   );
 };
@@ -97,7 +101,7 @@ const styles = StyleSheet.create({
     left: 20,
     fontSize: 24,
     fontWeight: "600",
-    color: "#FFFFFF",
+    color: "#000000",
   },
   form: {
     padding: 20,
@@ -105,7 +109,6 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     marginTop: 20,
-    marginBottom: 1,
   },
   oauthContainer: {
     alignItems: "center",
@@ -133,6 +136,12 @@ const styles = StyleSheet.create({
   },
   linkHighlight: {
     color: "#007AFF",
+  },
+  centeredLinkContainer: {
+    flex: 1,
+    justifyContent: "center", // Vertically center the link
+    alignItems: "center", // Horizontally center the link
+    marginBottom: 20, // Add space below the link
   },
 });
 
