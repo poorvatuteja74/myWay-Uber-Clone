@@ -61,12 +61,13 @@ const CustomButton = ({
   textVariant = "default",
   IconLeft,
   IconRight,
+  style, // Accept external styles
   ...props
 }: ButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.button, getBgVariantStyle(bgVariant)]}
+      style={[styles.button, getBgVariantStyle(bgVariant), style]} // Merge external styles
       {...props}
     >
       {IconLeft && <IconLeft />}

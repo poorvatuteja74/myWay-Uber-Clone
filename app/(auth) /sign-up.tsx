@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import InputField from "@/components/InputField";
 import { icons, images } from "@/constants";
+import CustomButton from "@/components/CustomButton";
+import { Link } from "expo-router";
+import OAuth from "@/components/OAuth";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -54,6 +57,21 @@ const SignUp = () => {
           onChangeText={(value) => setForm({ ...form, password: value })}
         />
       </View>
+
+      <View style={styles.centered}>
+        <CustomButton
+          title="Sign Up"
+          onPress={onSignUpPress}
+          style={styles.button}
+        />
+        <OAuth />
+        <Link href="/sign-in" style={styles.link}>
+          <Text style={styles.linkText}>
+            Already have an account?{" "}
+            <Text style={styles.linkHighlight}>Log In</Text>
+          </Text>
+        </Link>
+      </View>
     </ScrollView>
   );
 };
@@ -82,6 +100,24 @@ const styles = StyleSheet.create({
   },
   form: {
     padding: 20,
+  },
+  centered: {
+    alignItems: "center",
+    marginTop: 16,
+  },
+  button: {
+    width: "90%", // Adjust button width to fit screen
+    marginTop: 16,
+  },
+  link: {
+    marginTop: 20,
+  },
+  linkText: {
+    fontSize: 16,
+    color: "#000",
+  },
+  linkHighlight: {
+    color: "#007AFF",
   },
 });
 
