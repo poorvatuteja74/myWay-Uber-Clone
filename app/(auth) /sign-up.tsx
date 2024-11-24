@@ -25,7 +25,7 @@ const SignUp = () => {
   });
 
   const [verification, setVerification] = useState({
-    state: "default", // Set to 'success' for testing
+    state: "pending", // Initial state
     error: "",
     code: "",
   });
@@ -47,8 +47,9 @@ const SignUp = () => {
         ...verification,
         state: "pending",
       });
-    } catch (err: any) {
+    } catch (err) {
       console.error(JSON.stringify(err, null, 2));
+      Alert.alert("Error", "An error occurred while signing up.");
     }
   };
 
@@ -72,10 +73,10 @@ const SignUp = () => {
           state: "failed",
         });
       }
-    } catch (err: any) {
+    } catch (err) {
       setVerification({
         ...verification,
-        error: err.errors[0].longMessage,
+        error: err.errors?.[0]?.longMessage || "An error occurred",
         state: "failed",
       });
     }
@@ -130,13 +131,34 @@ const SignUp = () => {
         </Link>
       </View>
 
+      {/* Modal for Pending Verification */}
+      <ReactNativeModal isVisible={verification.state === "pending"}>
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Verification</Text>
+          <Text style={styles.modalMessage}>
+            We've sent a verification code to {form.email}
+          </Text>
+          <InputField
+            label="Verification Code"
+            icon={icons.lock}
+            placeholder="Enter the code"
+            value={verification.code}
+            keyboardType="numeric"
+            onChangeText={(code) =>
+              setVerification({ ...verification, code })
+            }
+          />
+          {verification.error && (
+            <Text style={styles.modalError}>{verification.error}</Text>
+          )}
+          <CustomButton title="Verify Email" onPress={onPressVerify} />
+        </View>
+      </ReactNativeModal>
+
       {/* Modal for Success */}
       <ReactNativeModal isVisible={verification.state === "success"}>
         <View style={styles.modalContainer}>
-          <Image
-            source={images.check}
-            style={styles.modalImage}
-          />
+          <Image source={images.check} style={styles.modalImage} />
           <Text style={styles.modalTitle}>Verified</Text>
           <Text style={styles.modalMessage}>
             You have successfully verified your account.
@@ -232,6 +254,11 @@ const styles = StyleSheet.create({
   modalButton: {
     marginTop: 15,
     width: "80%",
+  },
+  modalError: {
+    color: "red",
+    fontSize: 14,
+    marginTop: 10,
   },
 });
 
