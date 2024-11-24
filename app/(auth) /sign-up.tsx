@@ -58,20 +58,18 @@ const SignUp = () => {
         />
       </View>
 
-      <View style={styles.centered}>
-        <CustomButton
-          title="Sign Up"
-          onPress={onSignUpPress}
-          style={styles.button}
-        />
-        <OAuth />
-        <Link href="/sign-in" style={styles.link}>
-          <Text style={styles.linkText}>
-            Already have an account?{" "}
-            <Text style={styles.linkHighlight}>Log In</Text>
-          </Text>
-        </Link>
-      </View>
+      <CustomButton
+        title="Sign Up"
+        onPress={onSignUpPress}
+        style={styles.button}
+      />
+      <OAuth style={styles.oauthButtons} />
+      <Link href="/sign-in" style={styles.link}>
+        <Text style={styles.linkText}>
+          Already have an account?{" "}
+          <Text style={styles.linkHighlight}>Log In</Text>
+        </Text>
+      </Link>
     </ScrollView>
   );
 };
@@ -80,6 +78,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
+    paddingTop: 20,
   },
   header: {
     width: "100%",
@@ -89,28 +88,44 @@ const styles = StyleSheet.create({
   headerImage: {
     width: "100%",
     height: "100%",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   headerText: {
     position: "absolute",
     bottom: 20,
     left: 20,
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "600",
-    color: "#000",
+    color: "#FFFFFF",
   },
   form: {
     padding: 20,
   },
-  centered: {
-    alignItems: "center",
-    marginTop: 16,
-  },
   button: {
-    width: "90%", // Adjust button width to fit screen
-    marginTop: 16,
+    width: "100%",
+    marginTop: 20,
+    marginBottom: 1,
+  },
+  oauthContainer: {
+    alignItems: "center",
+    marginVertical: 20,
+    width: "100%",
+    paddingHorizontal: 20,
+  },
+  oauthText: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: "#6c757d",
+    textAlign: "center",
+  },
+  oauthButtons: {
+    width: "100%", // Ensure OAuth buttons match other buttons' width
+    marginTop: 20,
   },
   link: {
     marginTop: 20,
+    alignItems: "center",
   },
   linkText: {
     fontSize: 16,
