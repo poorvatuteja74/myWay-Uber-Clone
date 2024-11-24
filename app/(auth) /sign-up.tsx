@@ -10,14 +10,14 @@ import {
 import InputField from "@/components/InputField";
 import { icons, images } from "@/constants";
 import CustomButton from "@/components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import OAuth from "@/components/OAuth";
 import { useSignUp } from "@clerk/clerk-expo";
 import { ReactNativeModal } from "react-native-modal";
 
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
-  
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -25,9 +25,9 @@ const SignUp = () => {
   });
 
   const [verification, setVerification] = useState({
-    state: 'default',
-    error: '',
-    code: '',
+    state: "default", // Set to 'success' for testing
+    error: "",
+    code: "",
   });
 
   const onSignUpPress = async () => {
@@ -41,11 +41,11 @@ const SignUp = () => {
         password: form.password,
       });
 
-      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
 
       setVerification({
         ...verification,
-        state: 'pending',
+        state: "pending",
       });
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));
@@ -62,22 +62,21 @@ const SignUp = () => {
         code: verification.code,
       });
 
-      if (completeSignUp.status === 'complete') {
-        // Create a database user!
+      if (completeSignUp.status === "complete") {
         await setActive({ session: completeSignUp.createdSessionId });
-        setVerification({ ...verification, state: 'success' });
+        setVerification({ ...verification, state: "success" });
       } else {
         setVerification({
           ...verification,
-          error: 'Verification failed',
-          state: 'failed',
+          error: "Verification failed",
+          state: "failed",
         });
       }
     } catch (err: any) {
       setVerification({
         ...verification,
         error: err.errors[0].longMessage,
-        state: 'failed',
+        state: "failed",
       });
     }
   };
@@ -121,8 +120,7 @@ const SignUp = () => {
         style={styles.button}
       />
       <OAuth style={styles.oauthButtons} />
-      
-      {/* Centered "Already have an account?" Link */}
+
       <View style={styles.centeredLinkContainer}>
         <Link href="/sign-in" style={styles.link}>
           <Text style={styles.linkText}>
@@ -132,20 +130,22 @@ const SignUp = () => {
         </Link>
       </View>
 
-      {/* Modal to display verification result */}
-      <ReactNativeModal isVisible={verification.state === 'success' || verification.state === 'failed'}>
+      {/* Modal for Success */}
+      <ReactNativeModal isVisible={verification.state === "success"}>
         <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>
-              {verification.state === 'success' ? 'Verification Successful' : 'Verification Failed'}
-            </Text>
-            <Text style={styles.modalMessage}>
-              {verification.state === 'success'
-                ? 'Your account has been successfully verified!'
-                : `Error: ${verification.error}`}
-            </Text>
-            <CustomButton title="Close" onPress={() => setVerification({ ...verification, state: 'default' })} />
-          </View>
+          <Image
+            source={images.check}
+            style={styles.modalImage}
+          />
+          <Text style={styles.modalTitle}>Verified</Text>
+          <Text style={styles.modalMessage}>
+            You have successfully verified your account.
+          </Text>
+          <CustomButton
+            title="Browse Home"
+            onPress={() => router.replace("/(root)/(tabs)/home")}
+            style={styles.modalButton}
+          />
         </View>
       </ReactNativeModal>
     </ScrollView>
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   oauthButtons: {
-    width: "100%", 
+    width: "100%",
     marginTop: 20,
   },
   link: {
@@ -206,25 +206,32 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    width: "80%",
     alignItems: "center",
+    justifyContent: "center",
+  },
+  modalImage: {
+    width: 110,
+    height: 110,
+    marginBottom: 15,
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 10,
   },
   modalMessage: {
     fontSize: 16,
     textAlign: "center",
+    color: "gray",
     marginBottom: 20,
+  },
+  modalButton: {
+    marginTop: 15,
+    width: "80%",
   },
 });
 
