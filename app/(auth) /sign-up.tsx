@@ -17,15 +17,13 @@ import { ReactNativeModal } from "react-native-modal";
 
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
-
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
   });
-
   const [verification, setVerification] = useState({
-    state: "pending", // Initial state
+    state: "default", // Initial state
     error: "",
     code: "",
   });
@@ -45,7 +43,7 @@ const SignUp = () => {
 
       setVerification({
         ...verification,
-        state: "pending",
+        state: "pending", // Set state to pending
       });
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));
@@ -65,7 +63,7 @@ const SignUp = () => {
 
       if (completeSignUp.status === "complete") {
         await setActive({ session: completeSignUp.createdSessionId });
-        setVerification({ ...verification, state: "success" });
+        setVerification({ ...verification, state: "success" }); // Set state to success
       } else {
         setVerification({
           ...verification,
@@ -131,7 +129,7 @@ const SignUp = () => {
         </Link>
       </View>
 
-      {/* Modal for Pending Verification */}
+      {/* Modal for Pending */}
       <ReactNativeModal isVisible={verification.state === "pending"}>
         <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>Verification</Text>
